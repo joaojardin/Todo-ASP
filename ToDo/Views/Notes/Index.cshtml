@@ -6,9 +6,6 @@
 
 <h1>Notes</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table align-middle mb-0 bg-white">
     <thead class="bg-light">
         <tr>
@@ -36,7 +33,26 @@
                     <div class="d-flex align-items-center">
                         @if (item.completed == false)
                         {
-                            <span class="badge badge-danger rounded-pill d-inline">Not completed</span>
+                            <span class="badge badge-danger rounded-pill d-inline" style="margin-right: 1rem;">Not completed</span>
+                            <button type="button" id="markcompletedbtn" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal_@item.id">
+                                Mark as Completed
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal_@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                                            <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">You cannot undo this!</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
+                                            <a href="@Url.Action("MarkAsCompleted", "Notes", new { id = item.id })" class="btn btn-primary">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         }
                         @if (item.completed == true)
@@ -46,63 +62,45 @@
                     </div>
                 </td>
                 <td>
+                    <!-- Create Button -->
+                    <form asp-action="Create" asp-route-id="@item.id" method="get" style="display: inline;">
+                        <button type="submit" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark">Create</button>
+                    </form>
                     <!-- Edit Button -->
                     <form asp-action="Edit" asp-route-id="@item.id" method="get" style="display: inline;">
                         <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
                     </form>
 
                     <!-- Details Button -->
-                    <form asp-action="Details" asp-route-id="@item.id" method="get" style="display: inline;">
-                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Details</button>
-                    </form>
+                    <button type="button" id="deletebtn" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deletemodal_@item.id">
+                        Delete
+                    </button>
 
-                    <!-- Delete Button -->
-                    <form id="deleteForm_@item.id" method="post" style="display: inline;">
-                        <input type="hidden" name="id" value="@item.id" />
-                        <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-toggle="modal" data-mdb-target="#confirmDeleteModal_@item.id" data-mdb-ripple-color="dark">
-                            Delete
-                        </button>
-                    </form>
-
-                    <!-- MDB Modal -->
-                    <div class="modal fade" id="confirmDeleteModal_@item.id" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                    <!-- Modal -->
+                    <div class="modal fade" id="deletemodal_@item.id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
-                                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                    <h5 class="modal-title" id="deletemodalLabel">Are you sure?</h5>
+                                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    Are you sure you want to delete this item?
-                                </div>
+                                <div class="modal-body">You cannot undo this!</div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">No</button>
-                                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn_@item.id">Yes</button>
+                                    <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
+                                    <a href="@Url.Action("Delete", "Notes", new { id = item.id })" class="btn btn-primary">Yes</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var deleteButton = document.getElementById("confirmDeleteBtn_@item.id");
-                            if (deleteButton) {
-                                deleteButton.addEventListener("click", function () {
-                                    var form = document.getElementById("deleteForm_@item.id");
-                                    if (form) {
-                                        form.submit();
-                                    } else {
-                                        console.error("Form not found");
-                                    }
-                                });
-                            } else {
-                                console.error("Delete button not found");
-                            }
-                        });
-                    </script>
-
+                    <!-- Delete Button -->
+                    <form asp-action="Details" asp-route-id="@item.id" method="get" style="display: inline;">
+                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Details</button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<script>
+</script>
