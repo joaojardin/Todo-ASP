@@ -1,18 +1,16 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    height: 100%; /* needed to base the height calculations */
+    margin: 0; /* override default browser margin */
+    display: flex;
+    flex-direction: column;
 }
 
 body {
-  margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* minimum height of the viewport */
+}
+
+.container {
+    flex: 1; /* grows to take up available space */
 }

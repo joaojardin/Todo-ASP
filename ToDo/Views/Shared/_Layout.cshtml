@@ -45,13 +45,19 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="text-center text-lg-start bg-light text-muted">
-        <div class="text-center p-4">
-            &copy; 2024 - ToDo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-light text-center ">
+        <div class="container p-4">
+            <section class="mb-4">
+                <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="https://github.com/joaojardin" role="button"><i class="fab fa-github"></i></a>
+            </section>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2020 Copyright:
+            <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
         </div>
     </footer>
-    <script src="~/lib/mdboostrap/js/mdb.umd.min.js" asp-append-version="true"></script> <!-- MDBootstrap JavaScript -->
+    <script src="~/lib/mdboostrap/js/mdb.umd.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
