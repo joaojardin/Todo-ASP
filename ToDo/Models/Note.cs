@@ -12,10 +12,13 @@ namespace ToDo.Models
 
         public DateTime date { get; set; }
 
+        public bool completed { get; set; }
+
         public Note()
         {
             id = Guid.NewGuid();
             date = DateTime.Now;
+            completed = false;
         }
     }
 }

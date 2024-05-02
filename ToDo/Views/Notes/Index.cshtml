@@ -4,38 +4,63 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Notes</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.date)
-            </th>
-            <th></th>
+            <th>Content </th>
+            <th>Date</th>
+            <th>Completed?</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @Html.DisplayFor(modelItem => item.content)
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @Html.DisplayFor(modelItem => item.date)
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @if(item.completed == false)
+                        {
+                            <span class="badge badge-danger rounded-pill d-inline">Not completed</span>
+                        }
+                        @if (item.completed == true)
+                        {
+                            <span class="badge badge-success rounded-pill d-inline">Completed</span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <!-- Edit Button -->
+                    <form asp-action="Edit" asp-route-id="@item.id" method="get" style="display: inline;">
+                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
+                    </form>
+
+                    <!-- Details Button -->
+                    <form asp-action="Details" asp-route-id="@item.id" method="get" style="display: inline;">
+                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Details</button>
+                    </form>
+
+                    <!-- Delete Button -->
+                    <form asp-action="Delete" asp-route-id="@item.id" method="get" style="display: inline;">
+                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
