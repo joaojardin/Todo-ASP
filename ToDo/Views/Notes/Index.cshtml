@@ -68,11 +68,15 @@
                     </form>
                     <!-- Edit Button -->
                     <form asp-action="Edit" asp-route-id="@item.id" method="get" style="display: inline;">
-                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Edit</button>
+                        <button type="submit" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Edit</button>
                     </form>
 
                     <!-- Details Button -->
-                    <button type="button" id="deletebtn" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deletemodal_@item.id">
+                    <button type="button" class="btn btn-outline-danger"
+                        data-mdb-ripple-color="dark"
+                        data-mdb-ripple-init
+                        data-mdb-modal-init
+                        data-mdb-target="#deletemodal_@item.id">
                         Delete
                     </button>
 
@@ -95,7 +99,7 @@
 
                     <!-- Delete Button -->
                     <form asp-action="Details" asp-route-id="@item.id" method="get" style="display: inline;">
-                        <button type="submit" class="btn btn-link btn-rounded btn-sm fw-bold" data-mdb-ripple-color="dark">Details</button>
+                        <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Details</button>
                     </form>
                 </td>
             </tr>
