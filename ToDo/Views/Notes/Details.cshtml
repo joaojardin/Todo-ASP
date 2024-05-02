@@ -4,26 +4,17 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Note</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.content)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.content)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.date)
-        </dd>
-    </dl>
+<div class="card text-center border border-primary shadow-0 mb-3" style="max-width: 18rem; margin: 0 auto; padding-top: 10px">
+    <div class="card-header">Note</div>
+    <div class="card-body">
+        <ul style="list-style-type: none; padding: 0;">
+            <li><strong>Content:</strong> @Html.DisplayFor(model => model.content)</li>
+            <li><strong>Date:</strong> @Html.DisplayFor(model => model.date)</li>
+        </ul>
+    </div>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
