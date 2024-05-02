@@ -1,10 +1,21 @@
-﻿namespace ToDo.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace ToDo.Models
 {
     public class Note
     {
-        
-        public string content { get; set; }
-        public DateTime date { get; set; } = DateTime.Now;
+        [Key]
+        public Guid id { get; set; }
 
+        public string content { get; set; }
+
+        public DateTime date { get; set; }
+
+        public Note()
+        {
+            id = Guid.NewGuid();
+            date = DateTime.Now;
+        }
     }
 }
