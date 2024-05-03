@@ -7,24 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ToDo.Data;
 using ToDo.Models;
+using ToDo.Services;
 
 namespace ToDo.Controllers
 {
     public class NotesController : Controller
     {
         private readonly ToDoContext _context;
+        private readonly INoteService _noteService;
 
-        public NotesController(ToDoContext context)
+        public NotesController(ToDoContext context, INoteService noteService)
         {
             _context = context;
+            _noteService = noteService;
+
         }
 
         // GET: Notes
         public async Task<IActionResult> Index()
         {
-              return _context.Note != null ? 
-                          View(await _context.Note.ToListAsync()) :
-                          Problem("Entity set 'ToDoContext.Note'  is null.");
+            return View(await _noteService.GetNotes());
         }
 
         // GET: Notes/Details/5
@@ -35,8 +37,7 @@ namespace ToDo.Controllers
                 return NotFound();
             }
 
-            var note = await _context.Note
-                .FirstOrDefaultAsync(m => m.id == id);
+            var note = await _noteService.GetNote((Guid)id);
             if (note == null)
             {
                 return NotFound();
@@ -60,23 +61,27 @@ namespace ToDo.Controllers
         {
             if (ModelState.IsValid)
             {
-                note.id = Guid.NewGuid();
-                _context.Add(note);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool result = await _noteService.CreateNote(note);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    // Handle the error appropriately
+                    return View("Error");
+                }
             }
             return View(note);
         }
-
         // GET: Notes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.Note == null)
+            var note = await _noteService.GetNote((Guid)id);
+            if (id == null || note == null)
             {
                 return NotFound();
             }
-
-            var note = await _context.Note.FindAsync(id);
             if (note == null)
             {
                 return NotFound();
@@ -95,41 +100,23 @@ namespace ToDo.Controllers
             {
                 return NotFound();
             }
+            bool result = await _noteService.EditNote(note);
 
-            if (ModelState.IsValid)
+            if (result)
             {
-                try
-                {
-                    _context.Update(note);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NoteExists(note.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(note);
+            else
+            {
+                return View(note);
+            }
         }
 
         // GET: Notes/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || _context.Note == null)
-            {
-                return NotFound();
-            }
-
-            var note = await _context.Note
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (note == null)
+            var note = await _noteService.GetNote((Guid)id);
+            if (id == null || note == null)
             {
                 return NotFound();
             }
@@ -154,6 +141,19 @@ namespace ToDo.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> MarkAsCompleted(Guid id)
+        {
+            bool result = await _noteService.MarkNoteAsCompeleted(id);
+            if (result)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         private bool NoteExists(Guid id)

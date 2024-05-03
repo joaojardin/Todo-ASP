@@ -10,5 +10,8 @@ namespace ToDo.Services
         public Task<bool> DeleteNote(Guid id);
 
         public Task<bool> MarkNoteAsCompeleted(Guid id);
+        public Task<Note> GetNote(Guid id);
+
+        public Task<List<Note>> GetNotes();
     }
 }

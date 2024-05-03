@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using ToDo.Data;
 using ToDo.Models;
 
@@ -18,9 +19,14 @@ namespace ToDo.Services
 
         public async Task<bool> CreateNote(Note nt)
         {
+            if (nt == null)
+            {
+                return false;
+            }
             var success = 0;
             try
             {
+                nt.id = Guid.NewGuid();
                 _context.Add(nt);
                 success = await _context.SaveChangesAsync();
             }
@@ -45,6 +51,7 @@ namespace ToDo.Services
             var success = 0;
             try
             {
+                note.content = nt.content;
                 _context.Update(note);
                 success = await _context.SaveChangesAsync();
             }
@@ -115,6 +122,11 @@ namespace ToDo.Services
             }
 
             return success > 0;
+        }
+
+        public async Task<List<Note>> GetNotes()
+        {
+            return await _context.Note.ToListAsync();
         }
     }
 }
