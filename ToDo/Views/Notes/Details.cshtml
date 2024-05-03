@@ -5,17 +5,46 @@
 }
 
 
-<div class="card text-center border border-primary shadow-0 mb-3" style="max-width: 18rem; margin: 0 auto; padding-top: 10px">
-    <div class="card-header">Note</div>
-    <div class="card-body">
-        <ul style="list-style-type: none; padding: 0;">
-            <li><strong>Content:</strong> @Html.DisplayFor(model => model.content)</li>
-            <li><strong>Date:</strong> @Html.DisplayFor(model => model.date)</li>
-        </ul>
+<div style="display: flex; justify-content: center; align-items: center; height:50vh">
+    <div class="card text-center border border-primary shadow-0 mb-3" style="max-width: 28rem; padding-top: 10px">
+        <div class="card-header"><strong>@Html.DisplayFor(model => model.Title)</strong></div>
+        <div class="card-body" style="text-align: left;">
+            <ul style="list-style-type: none; padding: 0;">
+                <li><strong>Content:</strong> @Html.DisplayFor(model => model.Content)</li>
+                <li><strong>Category:</strong> @Html.DisplayFor(model => model.Category)</li>
+                <li><strong>Date Added:</strong> @Model.Date.ToString("dd/MM/yyyy HH:mm:ss")</li>
+                <li>
+                    <strong>Priority:</strong> @switch (Model.Priority)
+                    {
+                        case PriorityLevel.Low:
+                            <span class="badge rounded-pill badge-success">Low</span>
+                            break;
+                        case PriorityLevel.Medium:
+                            <span class="badge rounded-pill badge-warning">Medium</span>
+                            break;
+                        case PriorityLevel.High:
+                            <span class="badge rounded-pill badge-danger">High</span>
+                            break;
+                    }
+                </li>
+                <li>
+                    <strong>Completed?:</strong> @switch (Model.Completed)
+                    {
+                        case false:
+                            <span class="badge rounded-pill badge-danger">Not Completed</span>
+                            break;
+                        case true:
+                            <span class="badge rounded-pill badge-success">Completed</span>
+                            break;
+                    }
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+<div style="text-align: center;">
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+

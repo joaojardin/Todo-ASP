@@ -10,22 +10,38 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="content" class="control-label"></label>
-                <input asp-for="content" class="form-control" />
-                <span asp-validation-for="content" class="text-danger"></span>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-outline mb-4" data-mdb-input-init>
+                <input asp-for="Title" class="form-control" id="title" />
+                <label asp-for="Title" class="form-label"></label>
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="date" class="control-label"></label>
-                <input asp-for="date" class="form-control" />
-                <span asp-validation-for="date" class="text-danger"></span>
+            <!-- Content Field -->
+            <div class="form-outline mb-4" data-mdb-input-init>
+                <input asp-for="Content" class="form-control" id="content" />
+                <label asp-for="Content" class="form-label"></label>
+                <span asp-validation-for="Content" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="form-outline mb-4" data-mdb-input-init>
+                <input asp-for="Category" class="form-control" id="category" />
+                <label asp-for="Category" class="form-label">Category</label>
+                <span asp-validation-for="Category" class="text-danger"></span>
             </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Priority" class="form-label">Priority</label>
+                <select asp-for="Priority" class="form-control" id="priority">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mb-4">Save</button>
         </form>
     </div>
 </div>

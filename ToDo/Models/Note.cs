@@ -6,19 +6,32 @@ namespace ToDo.Models
     public class Note
     {
         [Key]
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
 
-        public string content { get; set; }
+        public string Title { get; set; }
 
-        public DateTime date { get; set; }
+        public string Content { get; set; }
 
-        public bool completed { get; set; }
+        public DateTime Date { get; set; }
+
+        public bool Completed { get; set; }
+
+        public string Category { get; set; }
+
+        public PriorityLevel Priority { get; set; }
 
         public Note()
         {
-            id = Guid.NewGuid();
-            date = DateTime.Now;
-            completed = false;
+            Id = Guid.NewGuid();
+            Date = DateTime.Now;
+            Completed = false;
         }
+    }
+
+    public enum PriorityLevel
+    {
+        Low,
+        Medium,
+        High
     }
 }

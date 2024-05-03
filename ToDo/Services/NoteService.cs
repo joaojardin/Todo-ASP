@@ -26,7 +26,8 @@ namespace ToDo.Services
             var success = 0;
             try
             {
-                nt.id = Guid.NewGuid();
+                nt.Id = Guid.NewGuid();
+                nt.Date = DateTime.Now;
                 _context.Add(nt);
                 success = await _context.SaveChangesAsync();
             }
@@ -47,11 +48,11 @@ namespace ToDo.Services
 
         public async Task<bool> EditNote(Note nt)
         {
-            var note = await _context.Note.Where(i => i.id == nt.id).FirstOrDefaultAsync();
+            var note = await _context.Note.Where(i => i.Id == nt.Id).FirstOrDefaultAsync();
             var success = 0;
             try
             {
-                note.content = nt.content;
+                note.Content = nt.Content;
                 _context.Update(note);
                 success = await _context.SaveChangesAsync();
             }
@@ -70,9 +71,9 @@ namespace ToDo.Services
             return success > 0;
         }
 
-        public async Task<bool> DeleteNote(Guid id)
+        public async Task<bool> DeleteNote(Guid Id)
         {
-            var note = await GetNote(id);
+            var note = await GetNote(Id);
             var success = 0;
             try
             {
@@ -95,18 +96,18 @@ namespace ToDo.Services
         }
 
 
-        public async Task<Note> GetNote(Guid id)
+        public async Task<Note> GetNote(Guid Id)
         {
-            return await _context.Note.Where(i => i.id == id).FirstOrDefaultAsync();
+            return await _context.Note.Where(i => i.Id == Id).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> MarkNoteAsCompeleted(Guid id)
+        public async Task<bool> MarkNoteAsCompeleted(Guid Id)
         {
-            var note = await GetNote(id);
+            var note = await GetNote(Id);
             var success = 0;
             try
             {
-                note.completed = true;
+                note.Completed = true;
                 success = await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException ex)

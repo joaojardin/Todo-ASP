@@ -4,13 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Notes</h1>
-
-<table class="table align-middle mb-0 bg-white">
+<h1 style="text-align:center">Notes</h1>
+<a class="btn btn-primary btn-floating m-1" style="background-color: forestgreen" href=@Url.Action("Create", "Notes") role="button" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Create note"><i class="fas fa-plus fa-2x"></i></a>
+<table class="table align-mIddle mb-0 bg-white">
     <thead class="bg-light">
-        <tr>
+        <tr style="text-align:center">
+            <th>Title </th>
             <th>Content </th>
+            <th>Category</th>
             <th>Date</th>
+            <th>Priority </th>
             <th>Completed?</th>
             <th>Actions</th>
         </tr>
@@ -21,41 +24,47 @@
             <tr>
                 <td>
                     <div class="d-flex align-items-center">
-                        @Html.DisplayFor(modelItem => item.content)
+                        @Html.DisplayFor(modelItem => item.Title)
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
-                        @Html.DisplayFor(modelItem => item.date)
+                        @Html.DisplayFor(modelItem => item.Content)
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
-                        @if (item.completed == false)
+                            @Html.DisplayFor(modelItem => item.Category)
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                         @item.Date.ToString("dd/MM/yyyy HH:mm:ss")
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        @if(item.Priority == PriorityLevel.Low)
                         {
-                            <span class="badge badge-danger rounded-pill d-inline" style="margin-right: 1rem;">Not completed</span>
-                            <button type="button" id="markcompletedbtn" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#exampleModal_@item.id">
-                                Mark as Completed
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal_@item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-                                            <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">You cannot undo this!</div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
-                                            <a href="@Url.Action("MarkAsCompleted", "Notes", new { id = item.id })" class="btn btn-primary">Yes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <span class="badge rounded-pill badge-success d-inline">Low</span>
                         }
-                        @if (item.completed == true)
+                        @if (item.Priority == PriorityLevel.Medium)
+                        {
+                            <span class="badge rounded-pill badge-warning d-inline">Medium</span>
+                        }
+                        @if (item.Priority == PriorityLevel.High)
+                        {
+                            <span class="badge rounded-pill badge-danger d-inline">High</span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex justify-content-center align-items-center">
+                        @if (item.Completed == false)
+                        {
+                            <span class="badge badge-danger rounded-pill d-inline">Not Completed</span>
+                        }
+                        @if (item.Completed == true)
                         {
                             <span class="badge badge-success rounded-pill d-inline">Completed</span>
                         }
@@ -63,11 +72,9 @@
                 </td>
                 <td>
                     <!-- Create Button -->
-                    <form asp-action="Create" asp-route-id="@item.id" method="get" style="display: inline;">
-                        <button type="submit" class="btn btn-outline-success" data-mdb-ripple-init data-mdb-ripple-color="dark">Create</button>
-                    </form>
+                        <i class="fas fa-circle-plus"></i>
                     <!-- Edit Button -->
-                    <form asp-action="Edit" asp-route-id="@item.id" method="get" style="display: inline;">
+                    <form asp-action="Edit" asp-route-id="@item.Id" method="get" style="display: inline;">
                         <button type="submit" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Edit</button>
                     </form>
 
@@ -76,29 +83,29 @@
                         data-mdb-ripple-color="dark"
                         data-mdb-ripple-init
                         data-mdb-modal-init
-                        data-mdb-target="#deletemodal_@item.id">
+                        data-mdb-target="#deletemodal_@item.Id">
                         Delete
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="deletemodal_@item.id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                    <div class="modal fade" Id="deletemodal_@item.Id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hIdden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="deletemodalLabel">Are you sure?</h5>
+                                    <h5 class="modal-title" Id="deletemodalLabel">Are you sure?</h5>
                                     <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">You cannot undo this!</div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
-                                    <a href="@Url.Action("Delete", "Notes", new { id = item.id })" class="btn btn-primary">Yes</a>
+                                    <a href="@Url.Action("Delete", "Notes", new { Id = item.Id })" class="btn btn-primary">Yes</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Delete Button -->
-                    <form asp-action="Details" asp-route-id="@item.id" method="get" style="display: inline;">
+                    <form asp-action="Details" asp-route-id="@item.Id" method="get" style="display: inline;">
                         <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Details</button>
                     </form>
                 </td>

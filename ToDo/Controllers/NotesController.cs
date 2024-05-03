@@ -57,7 +57,7 @@ namespace ToDo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,content,date")] Note note)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,Date,Completed,Category,Priority")] Note note)
         {
             if (ModelState.IsValid)
             {
@@ -72,8 +72,10 @@ namespace ToDo.Controllers
                     return View("Error");
                 }
             }
-            return View(note);
+            return View(note); // Return the view with the invalid model
         }
+
+
         // GET: Notes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -94,9 +96,9 @@ namespace ToDo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,content,date")] Note note)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Content,Date,Completed,Category,Priority")] Note note)
         {
-            if (id != note.id)
+            if (id != note.Id)
             {
                 return NotFound();
             }
@@ -158,7 +160,7 @@ namespace ToDo.Controllers
 
         private bool NoteExists(Guid id)
         {
-          return (_context.Note?.Any(e => e.id == id)).GetValueOrDefault();
+          return (_context.Note?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
