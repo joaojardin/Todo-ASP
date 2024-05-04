@@ -10,6 +10,8 @@ using ToDo.Data;
 using ToDo.Models;
 using ToDo.Services;
 using NToastNotify;
+using Microsoft.Extensions.Localization;
+using ToDo.Resources;
 
 namespace ToDo.Controllers
 {
@@ -18,17 +20,19 @@ namespace ToDo.Controllers
         private readonly ToDoContext _context;
         private readonly INoteService _noteService;
         private readonly IToastNotification _toastNotification;
-
-        public NotesController(ToDoContext context, INoteService noteService, IToastNotification toastNotification)
-        {
+        private readonly IStringLocalizer<SharedResource> _localizer;
+        public NotesController(ToDoContext context, INoteService noteService, IToastNotification toastNotification, IStringLocalizer<SharedResource> localizer) 
+        { 
             _context = context;
             _noteService = noteService;
             _toastNotification = toastNotification;
+            _localizer = localizer;
         }
 
         // GET: Notes
         public async Task<IActionResult> Index()
         {
+            var actionText = _localizer["Actions"];
             return View(await _noteService.GetNotes());
         }
 

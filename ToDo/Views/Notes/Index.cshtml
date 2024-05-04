@@ -1,4 +1,7 @@
-﻿@model IEnumerable<ToDo.Models.Note>
+﻿@using Microsoft.Extensions.Localization;
+@using ToDo.Services;
+@model IEnumerable<ToDo.Models.Note>
+@inject CommonLocalizationService localizer
 
 @{
     ViewData["Title"] = "Index";
@@ -9,13 +12,13 @@
 <table class="table align-mIddle mb-0 bg-white">
     <thead class="bg-light">
         <tr style="text-align:center">
-            <th>Title </th>
-            <th>Content </th>
-            <th>Category</th>
-            <th>Date</th>
-            <th>Priority </th>
-            <th>Completed?</th>
-            <th>Actions</th>
+            <th>@localizer.Get("Title")</th>
+            <th>@localizer.Get("Content")</th>
+            <th>@localizer.Get("Category")</th>
+            <th>@localizer.Get("Date")</th>
+            <th>@localizer.Get("Priority")</th>
+            <th>@localizer.Get("Completed")</th>
+            <th>@localizer.Get("Actions")</th>
         </tr>
     </thead>
     <tbody>

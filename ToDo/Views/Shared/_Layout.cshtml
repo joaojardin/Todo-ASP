@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Localization;
+@using ToDo.Resources;
+@inject IStringLocalizer<SharedResource> Localizer
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -49,14 +52,26 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="bg-light text-center ">
-        <div class="container p-4">
-            <section class="mb-4">
-                <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
-                <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="https://github.com/joaojardin" role="button" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="right" title="Github link"><i class="fab fa-github"></i></a>
-            </section>
+    <footer class="bg-light">
+        <div class="container">
+            <div class="row justify-content-between align-items-center py-4">
+                <!-- Flags section -->
+                <div class="col-auto">
+                    <div class="d-flex align-items-center">
+                        <a class="me-2" href="?culture=pt-PT"><i class="flag flag-portugal" style="font-size: 24px;"></i></a>
+                        <a href="?culture=en-GB"><i class="flag flag-united-kingdom" style="font-size: 24px;"></i></a>
+                    </div>
+                </div>
+                <!-- Social media icons section -->
+                <div class="col-auto">
+                    <div class="text-center">
+                        <a class="btn btn-primary btn-floating me-1" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-primary btn-floating" href="https://github.com/joaojardin" role="button" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="right" title="Github link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        <div class="text-center py-3" style="background-color: rgba(0, 0, 0, 0.2)">
             © 2020 Copyright:
             <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
         </div>
