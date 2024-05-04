@@ -52,7 +52,12 @@ namespace ToDo.Services
             var success = 0;
             try
             {
+                note.Title = nt.Title;
                 note.Content = nt.Content;
+                note.Date = nt.Date;
+                note.Completed = nt.Completed;
+                note.Category = nt.Category;
+                note.Priority = nt.Priority;
                 _context.Update(note);
                 success = await _context.SaveChangesAsync();
             }
