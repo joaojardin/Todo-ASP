@@ -21,97 +21,110 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <div class="d-flex align-items-center">
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
                         @Html.DisplayFor(modelItem => item.Title)
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
                         @Html.DisplayFor(modelItem => item.Content)
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                            @Html.DisplayFor(modelItem => item.Category)
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                         @item.Date.ToString("dd/MM/yyyy HH:mm:ss")
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        @if(item.Priority == PriorityLevel.Low)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                        @Html.DisplayFor(modelItem => item.Category)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                        @item.Date.ToString("dd/MM/yyyy HH:mm:ss")
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                        @if (item.Priority == PriorityLevel.Low)
                         {
-                            <span class="badge rounded-pill badge-success d-inline">Low</span>
+                                            <span class="badge rounded-pill badge-success d-inline">Low</span>
                         }
                         @if (item.Priority == PriorityLevel.Medium)
                         {
-                            <span class="badge rounded-pill badge-warning d-inline">Medium</span>
+                                            <span class="badge rounded-pill badge-warning d-inline">Medium</span>
                         }
                         @if (item.Priority == PriorityLevel.High)
                         {
-                            <span class="badge rounded-pill badge-danger d-inline">High</span>
+                                            <span class="badge rounded-pill badge-danger d-inline">High</span>
                         }
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex justify-content-center align-items-center">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center">
                         @if (item.Completed == false)
                         {
-                            <span class="badge badge-danger rounded-pill d-inline">Not Completed</span>
+                                            <span class="badge badge-danger rounded-pill d-inline">Not Completed</span>
                         }
                         @if (item.Completed == true)
                         {
-                            <span class="badge badge-success rounded-pill d-inline">Completed</span>
+                                            <span class="badge badge-success rounded-pill d-inline">Completed</span>
                         }
-                    </div>
-                </td>
-                <td>
-                    <!-- Create Button -->
-                        <i class="fas fa-circle-plus"></i>
-                    <!-- Edit Button -->
-                    <form asp-action="Edit" asp-route-id="@item.Id" method="get" style="display: inline;">
-                        <button type="submit" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Edit</button>
-                    </form>
+                            </div>
+                        </td>
+                        <td>
+                            <!-- Create Button -->
+                                <i class="fas fa-circle-plus"></i>
+                            <!-- Edit Button -->
+                            <form asp-action="Edit" asp-route-id="@item.Id" method="get" style="display: inline;">
+                                <button type="submit" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Edit</button>
+                            </form>
 
-                    <!-- Details Button -->
-                    <button type="button" class="btn btn-outline-danger"
+                            <!-- Details Button -->
+                            <button type="button" class="btn btn-outline-danger"
                         data-mdb-ripple-color="dark"
                         data-mdb-ripple-init
                         data-mdb-modal-init
                         data-mdb-target="#deletemodal_@item.Id">
-                        Delete
-                    </button>
+                                Delete
+                            </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" Id="deletemodal_@item.Id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hIdden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" Id="deletemodalLabel">Are you sure?</h5>
-                                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">You cannot undo this!</div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
-                                    <a href="@Url.Action("Delete", "Notes", new { Id = item.Id })" class="btn btn-primary">Yes</a>
+                            <!-- Modal -->
+                            <div class="modal fade" Id="deletemodal_@item.Id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hIdden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" Id="deletemodalLabel">Are you sure?</h5>
+                                            <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                            <div class="modal-body">You cannot undo this!</div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
+                                                                    <form asp-action="Delete" method="post">
+                                                    @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <input type="submit" value="Delete" class="btn btn-danger" /> 
+                                                    </form>
+                                          </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Delete Button -->
-                    <form asp-action="Details" asp-route-id="@item.Id" method="get" style="display: inline;">
-                        <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Details</button>
-                    </form>
-                </td>
-            </tr>
+                            <!-- Delete Button -->
+                            <form asp-action="Details" asp-route-id="@item.Id" method="get" style="display: inline;">
+                                <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Details</button>
+                            </form>
+                        </td>
+                    </tr>
         }
     </tbody>
 </table>
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+    var deleteForms = document.querySelectorAll('form[action*="DeleteConfirmed"]');
+    deleteForms.forEach(function(form) {
+        form.onsubmit = function() {
+            console.log('Form submitted');
+            return true; // Ensure the form continues to submit
+        };
+    });
+});
 </script>

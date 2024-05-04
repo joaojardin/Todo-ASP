@@ -74,6 +74,12 @@ namespace ToDo.Services
         public async Task<bool> DeleteNote(Guid Id)
         {
             var note = await GetNote(Id);
+            if (note == null)
+            {
+                Console.WriteLine("No note found with ID: " + Id);
+                return false;
+            }
+
             var success = 0;
             try
             {
@@ -82,18 +88,18 @@ namespace ToDo.Services
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                // https://learn.microsoft.com/en-us/ef/core/saving/concurrency#resolving-concurrency-conflicts
-                Console.WriteLine("error_ " + ex.Message);
+                Console.WriteLine("Concurrency error: " + ex.Message);
                 success = 0;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error_ " + ex.Message);
+                Console.WriteLine("General error: " + ex.Message);
                 success = 0;
             }
 
             return success > 0;
         }
+
 
 
         public async Task<Note> GetNote(Guid Id)

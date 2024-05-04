@@ -67,7 +67,7 @@ namespace ToDo.Controllers
                 bool result = await _noteService.CreateNote(note);
                 if (result)
                 {
-                    _toastNotification.AddSuccessToastMessage("Success!" + note.Title + "has been created!");
+                    _toastNotification.AddSuccessToastMessage(note.Title + " created.");
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -110,6 +110,7 @@ namespace ToDo.Controllers
 
             if (result)
             {
+                _toastNotification.AddSuccessToastMessage(note.Title + " has been updated.");
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -139,15 +140,18 @@ namespace ToDo.Controllers
             {
                 return Problem("Entity set 'ToDoContext.Note'  is null.");
             }
-            var note = await _context.Note.FindAsync(id);
-            if (note != null)
+            var note = await _noteService.GetNote(id);
+            var success = await _noteService.DeleteNote(id);
+            if (success)
             {
-                _toastNotification.AddSuccessToastMessage("Success!" + note.Title + "has been deleted!");
-                _context.Note.Remove(note);
+                _toastNotification.AddSuccessToastMessage(note.Title + " has been deleted.");
 
             }
+            else
+            {
+                _toastNotification.AddErrorToastMessage("ERRORRR");
+            }
             
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP\\ToDo\\ToDo.csproj": {}
+    "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP v2\\Todo-ASP\\ToDo\\ToDo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP\\ToDo\\ToDo.csproj": {
+    "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP v2\\Todo-ASP\\ToDo\\ToDo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP\\ToDo\\ToDo.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP v2\\Todo-ASP\\ToDo\\ToDo.csproj",
         "projectName": "ToDo",
-        "projectPath": "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP\\ToDo\\ToDo.csproj",
+        "projectPath": "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP v2\\Todo-ASP\\ToDo\\ToDo.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP\\ToDo\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Desktop\\LeetCode\\Todo-ASP v2\\Todo-ASP\\ToDo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,26 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.16, )"
+            },
+            "NToastNotify": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
