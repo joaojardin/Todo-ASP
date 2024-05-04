@@ -1,0 +1,8 @@
+# Ignore build results
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+
+# Ignore the packages folder, which might be created when restoring NuGet packages
+packages/
