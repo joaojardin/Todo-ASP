@@ -52,6 +52,7 @@ namespace ToDo.Controllers
         // GET: Notes/Create
         public IActionResult Create()
         {
+            ViewBag.Categories = Enum.GetValues(typeof(NoteCategory));
             return View();
         }
 
@@ -92,6 +93,7 @@ namespace ToDo.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Categories = Enum.GetValues(typeof(NoteCategory));
             return View(note);
         }
 

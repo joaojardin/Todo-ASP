@@ -16,7 +16,7 @@ namespace ToDo.Models
 
         public bool Completed { get; set; }
 
-        public string Category { get; set; }
+        public NoteCategory Category { get; set; }
 
         public PriorityLevel Priority { get; set; }
 
@@ -34,4 +34,26 @@ namespace ToDo.Models
         Medium,
         High
     }
+
+
+    public enum NoteCategory
+    {
+        Personal,
+        Work,
+        Study,
+        Home,
+        Health,
+        Finance,
+        Social,
+        Travel,
+        Shopping,
+        Entertainment,
+        Goals,
+        Family,
+        Projects,
+        Routine,
+        Urgent,
+        Miscellaneous
+    }
+
 }
