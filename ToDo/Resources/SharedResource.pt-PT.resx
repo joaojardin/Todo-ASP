@@ -120,6 +120,12 @@
   <data name="Actions" xml:space="preserve">
     <value>Ações</value>
   </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Tem a certeza?</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Voltar</value>
+  </data>
   <data name="Category" xml:space="preserve">
     <value>Categoria</value>
   </data>
@@ -129,13 +135,91 @@
   <data name="Content" xml:space="preserve">
     <value>Conteúdo</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="CreateANote" xml:space="preserve">
+    <value>Adicionar uma nota</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Data</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Apagar</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Entertainment" xml:space="preserve">
+    <value>Entretenimento</value>
+  </data>
+  <data name="Finance" xml:space="preserve">
+    <value>Finanças</value>
+  </data>
+  <data name="Goals" xml:space="preserve">
+    <value>Objetivos</value>
+  </data>
+  <data name="Health" xml:space="preserve">
+    <value>Saúde</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>Alta</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Casa</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Baixa</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Média</value>
+  </data>
+  <data name="Miscellaneous" xml:space="preserve">
+    <value>Outros</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value>Pessoal</value>
   </data>
   <data name="Priority" xml:space="preserve">
     <value>Prioridade</value>
   </data>
+  <data name="Projects" xml:space="preserve">
+    <value>Projetos</value>
+  </data>
+  <data name="Routine" xml:space="preserve">
+    <value>Rotina</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="Shopping" xml:space="preserve">
+    <value>Compras</value>
+  </data>
+  <data name="Social" xml:space="preserve">
+    <value>Social</value>
+  </data>
+  <data name="Study" xml:space="preserve">
+    <value>Estudo</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Título</value>
+  </data>
+  <data name="Travel" xml:space="preserve">
+    <value>Viagem</value>
+  </data>
+  <data name="Urgent" xml:space="preserve">
+    <value>Urgente</value>
+  </data>
+  <data name="Work" xml:space="preserve">
+    <value>Trabalho</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sim</value>
   </data>
 </root>
