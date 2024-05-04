@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ToDo.Data;
 using ToDo.Models;
 using ToDo.Services;
+using NToastNotify;
 
 namespace ToDo.Controllers
 {
@@ -15,12 +17,13 @@ namespace ToDo.Controllers
     {
         private readonly ToDoContext _context;
         private readonly INoteService _noteService;
+        private readonly IToastNotification _toastNotification;
 
-        public NotesController(ToDoContext context, INoteService noteService)
+        public NotesController(ToDoContext context, INoteService noteService, IToastNotification toastNotification)
         {
             _context = context;
             _noteService = noteService;
-
+            _toastNotification = toastNotification;
         }
 
         // GET: Notes
@@ -64,6 +67,7 @@ namespace ToDo.Controllers
                 bool result = await _noteService.CreateNote(note);
                 if (result)
                 {
+                    _toastNotification.AddSuccessToastMessage("Success!" + note.Title + "has been created!");
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -138,7 +142,9 @@ namespace ToDo.Controllers
             var note = await _context.Note.FindAsync(id);
             if (note != null)
             {
+                _toastNotification.AddSuccessToastMessage("Success!" + note.Title + "has been deleted!");
                 _context.Note.Remove(note);
+
             }
             
             await _context.SaveChangesAsync();
