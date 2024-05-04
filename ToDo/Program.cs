@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using ToDo.Data;
 using ToDo.Services;
 
@@ -15,6 +17,20 @@ builder.Services.AddScoped<INoteService, NoteService>();
 // Add NToastNotify Toastr services
 builder.Services.AddMvc()
     .AddNToastNotifyToastr();
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("pt-PT") // Portuguese (Portugal)
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("pt-PT");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 var app = builder.Build();
 
