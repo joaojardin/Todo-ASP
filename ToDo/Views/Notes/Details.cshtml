@@ -1,5 +1,6 @@
-﻿@model ToDo.Models.Note
-
+﻿@using ToDo.Services;
+@model ToDo.Models.Note
+@inject CommonLocalizationService localizer
 @{
     ViewData["Title"] = "Details";
 }
@@ -10,11 +11,11 @@
         <div class="card-header"><strong>@Html.DisplayFor(model => model.Title)</strong></div>
         <div class="card-body" style="text-align: left;">
             <ul style="list-style-type: none; padding: 0;">
-                <li><strong>Content:</strong> @Html.DisplayFor(model => model.Content)</li>
-                <li><strong>Category:</strong> @Html.DisplayFor(model => model.Category)</li>
-                <li><strong>Date Added:</strong> @Model.Date.ToString("dd/MM/yyyy HH:mm:ss")</li>
+                <li><strong>@localizer.Get("Content"):</strong> @Html.DisplayFor(model => model.Content)</li>
+                <li><strong>@localizer.Get("Category"):</strong> @Html.DisplayFor(model => model.Category)</li>
+                <li><strong>@localizer.Get("Date"):</strong> @Model.Date.ToString("dd/MM/yyyy HH:mm:ss")</li>
                 <li>
-                    <strong>Priority:</strong> @switch (Model.Priority)
+                    <strong>@localizer.Get("Priority"):</strong> @switch (Model.Priority)
                     {
                         case PriorityLevel.Low:
                             <span class="badge rounded-pill badge-success">Low</span>
@@ -28,13 +29,13 @@
                     }
                 </li>
                 <li>
-                    <strong>Completed?:</strong> @switch (Model.Completed)
+                    <strong>@localizer.Get("Completed"):</strong> @switch (Model.Completed)
                     {
                         case false:
-                            <span class="badge rounded-pill badge-danger">Not Completed</span>
+                            <span class="badge rounded-pill badge-danger">@localizer.Get("No")</span>
                             break;
                         case true:
-                            <span class="badge rounded-pill badge-success">Completed</span>
+                            <span class="badge rounded-pill badge-success">@localizer.Get("Yes")</span>
                             break;
                     }
                 </li>
@@ -45,6 +46,6 @@
 
 <div style="text-align: center;">
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@localizer.Get("Back")</a>
 </div>
 

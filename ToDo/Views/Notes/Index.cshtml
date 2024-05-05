@@ -1,17 +1,80 @@
 ﻿@using Microsoft.Extensions.Localization;
 @using ToDo.Services;
-@model IEnumerable<ToDo.Models.Note>
+@model ToDo.Models.NoteViewModel;
 @inject CommonLocalizationService localizer
+@inject INoteService noteService;
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1 style="text-align:center">Notes</h1>
-<a class="btn btn-primary btn-floating m-1" style="background-color: forestgreen" href=@Url.Action("Create", "Notes") role="button" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="top" title="Create note"><i class="fas fa-plus fa-2x"></i></a>
+<!-- Trigger Button for Create Note Modal -->
+<!-- Trigger Button for Create Note Modal -->
+<a class="btn btn-primary btn-floating m-1" style="background-color: indianred" data-mdb-target="#createModal" data-mdb-toggle="modal" data-mdb-ripple-init data-mdb-modal-init data-mdb-tooltip-init data-mdb-placement="top" title="Create note">
+    <i class="fas fa-plus fa-2x"></i>
+</a>
+@{
+    var note = Model.NewNote;
+
+<!-- Create Note Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Create Note Form -->
+                <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div data-mdb-input-init class = "form-outline mb-4">
+                        <input asp-for="@note.Title" class="form-control" id="title" required />
+                            <label asp-for="@note.Title" class="form-label"></label>
+                            <span asp-validation-for="@note.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                            <input asp-for="@note.Content" class="form-control" id="content" required />
+                            <label asp-for="@note.Content" class="form-label"></label>
+                            <span asp-validation-for="@note.Content" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                            <label asp-for="@note.Category" class="form-label">Category</label>
+                            <select asp-for="@note.Category" class="form-control" id="category" required>
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                <option value="@category">@localizer.Get(@Enum.GetName(typeof(NoteCategory), @category))</option>
+                            }
+                        </select>
+                            <span asp-validation-for="@note.Category" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                            <label asp-for="@note.Priority class="form-label">@localizer.Get("Priority")</label>
+                            <select asp-for="@note.Priority" class="form-control" id="priority" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                            <span asp-validation-for="@note.Priority" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4">@localizer.Get("Create")</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- Modal -->
 <table class="table align-mIddle mb-0 bg-white">
     <thead class="bg-light">
-        <tr style="text-align:center">
+        <tr>
             <th>@localizer.Get("Title")</th>
             <th>@localizer.Get("Content")</th>
             <th>@localizer.Get("Category")</th>
@@ -22,12 +85,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Notes)
         {
                     <tr>
                         <td>
                             <div class="d-flex align-items-center">
-                        @Html.DisplayFor(modelItem => item.Title)
+                        <a href="@Url.Action("Details", "Notes", new { id = item.Id })" data-mdb-ripple-init data-mdb-tooltip-init data-mdb-placement="left" title="@localizer.Get("Details")">@Html.DisplayFor(modelItem => item.Title)</a>
                             </div>
                         </td>
                         <td>
@@ -37,7 +100,7 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
-                        @Html.DisplayFor(modelItem => item.Category)
+                                @localizer.Get(@Enum.GetName(typeof(NoteCategory), item.Category))
                             </div>
                         </td>
                         <td>
@@ -49,15 +112,15 @@
                             <div class="d-flex align-items-center">
                         @if (item.Priority == PriorityLevel.Low)
                         {
-                                            <span class="badge rounded-pill badge-success d-inline">Low</span>
+                                            <span class="badge rounded-pill badge-success d-inline">@localizer.Get("Low")</span>
                         }
                         @if (item.Priority == PriorityLevel.Medium)
                         {
-                                            <span class="badge rounded-pill badge-warning d-inline">Medium</span>
+                            <span class="badge rounded-pill badge-warning d-inline">@localizer.Get("Medium")</span>
                         }
                         @if (item.Priority == PriorityLevel.High)
                         {
-                                            <span class="badge rounded-pill badge-danger d-inline">High</span>
+                            <span class="badge rounded-pill badge-danger d-inline">@localizer.Get("High")</span>
                         }
                             </div>
                         </td>
@@ -65,11 +128,11 @@
                             <div class="d-flex justify-content-center align-items-center">
                         @if (item.Completed == false)
                         {
-                                            <span class="badge badge-danger rounded-pill d-inline">Not Completed</span>
+                                            <span class="badge badge-danger rounded-pill d-inline">@localizer.Get("No")</span>
                         }
                         @if (item.Completed == true)
                         {
-                                            <span class="badge badge-success rounded-pill d-inline">Completed</span>
+                            <span class="badge badge-success rounded-pill d-inline">@localizer.Get("Yes")</span>
                         }
                             </div>
                         </td>
@@ -77,9 +140,68 @@
                             <!-- Create Button -->
                                 <i class="fas fa-circle-plus"></i>
                             <!-- Edit Button -->
-                            <form asp-action="Edit" asp-route-id="@item.Id" method="get" style="display: inline;">
-                                <button type="submit" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-ripple-color="dark">Edit</button>
-                            </form>
+                    <button type="button" class="btn btn-outline-warning" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editModal">
+                        @localizer.Get("Edit")
+                    </button>
+                    @{
+                        var noteEdit = await noteService.GetNote(item.Id);
+
+                    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModallLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModallLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6" mx-auto>
+                                            <form asp-action="Edit"  method="post" class="needs-validation" novalidate>
+                                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <input type="hidden" asp-for="@noteEdit.Id" />
+                                                   <h3>@noteEdit.Id</h3>
+
+                                                <div class="form-outline mb-4" data-mdb-input-init>
+                                                        <input asp-for="@noteEdit.Title" class="form-control" id="title" required />
+                                                        <label asp-for="@noteEdit.Title" class="form-label"></label>
+                                                        <span asp-validation-for="@noteEdit.Title" class="text-danger"></span>
+                                                </div>
+                                                <!-- Content Field -->
+                                                <div class="form-outline mb-4" data-mdb-input-init>
+                                                        <input asp-for="@noteEdit.Content" class="form-control" id="content" required />
+                                                        <label asp-for="@noteEdit.Content" class="form-label"></label>
+                                                        <span asp-validation-for="@noteEdit.Content" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="form-group mb-4">
+                                                        <label asp-for="@noteEdit.Category" class="form-label">@localizer.Get("Category")</label>
+                                                        <select asp-for="@noteEdit.Category" class="form-control" id="category" required>
+                                                        @foreach (var category in ViewBag.Categories)
+                                                        {
+                                                            <option value="@category">@category</option>
+                                                        }
+                                                    </select>
+                                                        <span asp-validation-for="@noteEdit.Category" class="text-danger"></span>
+                                                </div>
+
+                                                <div class="form-group mb-4">
+                                                    <label asp-for="@noteEdit.Priority" class="form-label">@localizer.Get("Priority")</label>
+                                                    <select asp-for="@noteEdit.Priority" class="form-control" id="priority" required>
+                                                        <option value="Low">Low</option>
+                                                        <option value="Medium">Medium</option>
+                                                        <option value="High">High</option>
+                                                    </select>
+                                                        <span asp-validation-for="@noteEdit.Priority" class="text-danger"></span>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-block mb-4">@localizer.Get("Save")</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
 
                             <!-- Details Button -->
                             <button type="button" class="btn btn-outline-danger"
@@ -87,47 +209,58 @@
                         data-mdb-ripple-init
                         data-mdb-modal-init
                         data-mdb-target="#deletemodal_@item.Id">
-                                Delete
+                        @localizer.Get("Delete")
                             </button>
 
                             <!-- Modal -->
-                            <div class="modal fade" Id="deletemodal_@item.Id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hIdden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" Id="deletemodalLabel">Are you sure?</h5>
-                                            <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                            <div class="modal-body">You cannot undo this!</div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">No</button>
-                                                                    <form asp-action="Delete" method="post">
-                                                    @Html.AntiForgeryToken()
-                                                        <input type="hidden" name="id" value="@item.Id" />
-                                                        <input type="submit" value="Delete" class="btn btn-danger" /> 
-                                                    </form>
-                                          </div>
-                                    </div>
+                    <div class="modal fade" id="deletemodal_@item.Id" tabindex="-1" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deletemodalLabel">@localizer.Get("AreYouSure")</h5>
+                                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">You cannot undo this!</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">@localizer.Get("No")</button>
+                                    <form asp-action="Delete" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                    </form>
                                 </div>
                             </div>
-
-                            <!-- Delete Button -->
-                            <form asp-action="Details" asp-route-id="@item.Id" method="get" style="display: inline;">
-                                <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-color="dark">Details</button>
-                            </form>
+                        </div>
+                    </div>
                         </td>
                     </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var deleteForms = document.querySelectorAll('form[action*="DeleteConfirmed"]');
-    deleteForms.forEach(function(form) {
-        form.onsubmit = function() {
-            console.log('Form submitted');
-            return true; // Ensure the form continues to submit
-        };
+    const forms = document.querySelectorAll('.needs-validation');
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach((form) => {
+        form.addEventListener('submit', (event) => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
     });
-});
+
+    const title = document.getElementById("title");
+    console.log(title.value);
+    const content = document.getElementById("content");
+    console.log(content.value);
+
 </script>

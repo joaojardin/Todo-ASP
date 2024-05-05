@@ -1,5 +1,6 @@
-﻿@model ToDo.Models.Note
-
+﻿@using ToDo.Services;
+@model ToDo.Models.Note
+@inject CommonLocalizationService localizer
 @{
     ViewData["Title"] = "Create";
 }
@@ -21,7 +22,7 @@
 
             <!-- Content Field -->
             <div class="form-outline mb-4" data-mdb-input-init>
-                <input asp-for="Content" class="form-control" id="content" required/>
+                <input asp-for="Content" class="form-control" id="content" required />
                 <label asp-for="Content" class="form-label"></label>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
@@ -31,14 +32,14 @@
                 <select asp-for="Category" class="form-control" id="category" required>
                     @foreach (var category in ViewBag.Categories)
                     {
-                        <option value="@category">@category</option>
+                        <option value="@category">@localizer.Get(@Enum.GetName(typeof(NoteCategory), @category))</option>
                     }
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
 
             <div class="form-group mb-4">
-                <label asp-for="Priority" class="form-label">Priority</label>
+                <label asp-for="Priority" class="form-label">´@localizer.Get("Priority")</label>
                 <select asp-for="Priority" class="form-control" id="priority" required>
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -47,7 +48,7 @@
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary btn-block mb-4">Create</button>
+            <button type="submit" class="btn btn-primary btn-block mb-4">@localizer.Get("Create")</button>
         </form>
     </div>
 </div>
@@ -77,4 +78,9 @@
             form.classList.add('was-validated');
         }, false);
     });
+
+    const title = document.getElementById("title");
+    console.log(title.value);
+    const content = document.getElementById("content");
+    console.log(content.value);
 </script>

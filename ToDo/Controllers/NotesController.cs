@@ -12,6 +12,7 @@ using ToDo.Services;
 using NToastNotify;
 using Microsoft.Extensions.Localization;
 using ToDo.Resources;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ToDo.Controllers
 {
@@ -32,8 +33,15 @@ namespace ToDo.Controllers
         // GET: Notes
         public async Task<IActionResult> Index()
         {
-            var actionText = _localizer["Actions"];
-            return View(await _noteService.GetNotes());
+            ViewBag.Categories = Enum.GetValues(typeof(NoteCategory));
+            var notes = await _noteService.GetNotes();
+            var viewModel = new NoteViewModel
+            {
+                Notes = notes,
+                NewNote = new Note() // Assuming you want to initialize a new note for the form
+            };
+
+            return View(viewModel);
         }
 
         // GET: Notes/Details/5
@@ -59,31 +67,47 @@ namespace ToDo.Controllers
             ViewBag.Categories = Enum.GetValues(typeof(NoteCategory));
             return View();
         }
-
-        // POST: Notes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Content,Date,Completed,Category,Priority")] Note note)
         {
+            ViewBag.Categories = Enum.GetValues(typeof(NoteCategory));
+            var notes = await _noteService.GetNotes();
+            var viewModel = new NoteViewModel
+            {
+                Notes = notes,
+                NewNote = new Note() // Assuming you want to initialize a new note for the form
+            };
+
             if (ModelState.IsValid)
             {
                 bool result = await _noteService.CreateNote(note);
                 if (result)
                 {
-                    _toastNotification.AddSuccessToastMessage(note.Title + " created.");
+                    _toastNotification.AddSuccessToastMessage(note.Title + " created successfully.");
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    // Handle the error appropriately
-                    return View("Error");
+                    _toastNotification.AddErrorToastMessage("Failed to create " + note.Title + ".");
+                    return View("Index", viewModel);
                 }
             }
-            return View(note); // Return the view with the invalid model
-        }
+            else
+            {
+                // Log errors
+                foreach (var state in ModelState.Values)
+                {
+                    foreach (var error in state.Errors)
+                    {
+                        _toastNotification.AddErrorToastMessage(error.ErrorMessage);
+                    }
+                }
+            }
 
+            _toastNotification.AddErrorToastMessage("Validation failed.");
+            return View("Index", viewModel);
+        }
 
         // GET: Notes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
@@ -108,8 +132,13 @@ namespace ToDo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Title,Content,Date,Completed,Category,Priority")] Note note)
         {
+
+            ViewBag.Categories = Enum.GetValues(typeof(NoteCategory));
             if (id != note.Id)
             {
+                Console.WriteLine(id);
+                Console.WriteLine(note.Id);
+                Console.WriteLine("HEREEEEEEEEEEEEEEEEEEEEEEEEE");
                 return NotFound();
             }
             bool result = await _noteService.EditNote(note);
